@@ -2,15 +2,13 @@
 import { Head, Link } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue'
 import { 
-  SparklesIcon, 
-  WrenchScrewdriverIcon, 
-  ChatBubbleLeftEllipsisIcon,
   EnvelopeIcon,
   PhoneIcon,
   MapPinIcon,
   CheckCircleIcon,
   ArrowRightIcon
 } from '@heroicons/vue/24/outline'
+import * as HeroIcons from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   hero: Object,
@@ -45,7 +43,10 @@ onMounted(() => {
   })
 })
 
-const serviceIcons = [SparklesIcon, WrenchScrewdriverIcon, ChatBubbleLeftEllipsisIcon]
+// Helper function to get icon component from name
+function getIconComponent(iconName) {
+  return HeroIcons[iconName] || HeroIcons.SparklesIcon // fallback to SparklesIcon
+}
 </script>
 
 <template>
@@ -135,7 +136,7 @@ const serviceIcons = [SparklesIcon, WrenchScrewdriverIcon, ChatBubbleLeftEllipsi
         
         <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div 
-            v-for="(service, idx) in services" 
+            v-for="service in services" 
             :key="service.id"
             class="observe opacity-0 group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-black border border-gray-800 p-8 hover:border-gray-600 transition-all duration-300 hover:transform hover:-translate-y-2"
           >
@@ -144,7 +145,7 @@ const serviceIcons = [SparklesIcon, WrenchScrewdriverIcon, ChatBubbleLeftEllipsi
             
             <div class="relative z-10">
               <div class="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-gray-700 to-gray-900 mb-6 group-hover:scale-110 transition">
-                <component :is="serviceIcons[idx % serviceIcons.length]" class="h-7 w-7 text-gray-300" />
+                <component :is="getIconComponent(service.icon)" class="h-7 w-7 text-gray-300" />
               </div>
               <h3 class="text-2xl font-bold mb-3 text-white">{{ service.name }}</h3>
               <p class="text-gray-400 leading-relaxed">{{ service.description || 'Professional service tailored to your needs' }}</p>
