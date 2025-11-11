@@ -43,4 +43,10 @@ class HeroSectionController extends Controller
         $hero_section->update($data);
         return back();
     }
+
+    public function destroy(HeroSection $hero_section)
+    {
+        $hero_section->delete();
+        return back();
+    }
 }
